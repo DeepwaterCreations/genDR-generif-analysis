@@ -1,0 +1,2 @@
+generifs_basic: ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/generifs_basic.gz
+gendr_manipulations.csv: http://genomics.senescence.info/diet/dataset.zip
