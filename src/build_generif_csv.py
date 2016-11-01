@@ -26,3 +26,6 @@ generifs['Gene ID'] = generifs['Gene ID'].astype(np.int64)
 #Combine the datasets
 gendr_rifs = pd.merge(gendr, generifs, left_on="entrez_id", right_on="Gene ID")
 gendr_rifs = gendr_rifs.drop(['entrez_id'], axis=1)
+
+#Export to csv
+gendr_rifs.to_csv('data/gendr_rifs.csv')
