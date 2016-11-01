@@ -20,3 +20,4 @@ generifs = pd.DataFrame(np.array(datalist), columns=['Tax ID',
                                'last update',
                                'timestamp',
                                'GeneRIF text'])
+generifs.drop(['Tax Id', 'PubMed ID (PMID) list', 'last update', 'timestamp'])
