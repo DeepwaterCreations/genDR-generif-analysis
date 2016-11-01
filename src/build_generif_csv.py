@@ -20,7 +20,7 @@ generifs = pd.DataFrame(np.array(datalist), columns=['Tax ID',
                                'last update',
                                'timestamp',
                                'GeneRIF text'])
-generifs.drop(['Tax Id', 'PubMed ID (PMID) list', 'last update', 'timestamp'])
+generifs.drop(['Tax ID', 'PubMed ID (PMID) list', 'last update', 'timestamp'], axis=1)
 generifs['Gene ID'] = generifs['Gene ID'].astype(np.int64)
 
 #Combine the datasets
