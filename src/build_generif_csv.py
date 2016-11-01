@@ -22,3 +22,7 @@ generifs = pd.DataFrame(np.array(datalist), columns=['Tax ID',
                                'GeneRIF text'])
 generifs.drop(['Tax Id', 'PubMed ID (PMID) list', 'last update', 'timestamp'])
 generifs['Gene ID'] = generifs['Gene ID'].astype(np.int64)
+
+#Combine the datasets
+gendr_rifs = pd.merge(gendr, generifs, left_on="entrez_id", right_on="Gene ID")
+corpus = gendr_rifs['GeneRIF text']
