@@ -21,3 +21,4 @@ generifs = pd.DataFrame(np.array(datalist), columns=['Tax ID',
                                'timestamp',
                                'GeneRIF text'])
 generifs.drop(['Tax Id', 'PubMed ID (PMID) list', 'last update', 'timestamp'])
+generifs['Gene ID'] = generifs['Gene ID'].astype(np.int64)
