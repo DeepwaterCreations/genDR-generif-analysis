@@ -8,5 +8,5 @@ def get_gendr_rifs_df():
 def get_tfidf():
     df = get_gendr_rifs_df()
     corpus = df['GeneRIF text']
-    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer = TfidfVectorizer(stop_words='english', min_df=.01)
     return vectorizer.fit_transform(corpus).todense()
