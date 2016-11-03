@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.decomposition import NMF
 
@@ -13,7 +14,7 @@ def get_matrix_factorization(data):
     model = NMF(n_components = 20)
     W = model.fit_transform(data)
     print "Number of iterations:", model.n_iter_
-    return W
+    return model, W
 
 def get_top_words(model, feature_names, num_words=5):
     topics = []
@@ -23,5 +24,8 @@ def get_top_words(model, feature_names, num_words=5):
     return topics
 
 if __name__ == "__main__":
-    data = dataload.get_tfidf()
-    print get_matrix_factorization(data)
+    vectorizer, vectors = dataload.get_tfidf()
+    model, W = get_matrix_factorization(vectors)
+    print W.shape
+    feature_names = np.array(vectorizer.get_feature_names())
+    print get_top_words(model, feature_names)
