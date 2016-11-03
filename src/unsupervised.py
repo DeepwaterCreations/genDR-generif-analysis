@@ -10,7 +10,7 @@ def get_kmeans_clusters(data):
     return clusters
 
 def get_matrix_factorization(data):
-    model = NMF()
+    model = NMF(n_components = 20)
     W = model.fit_transform(data)
     print "Number of iterations:", model.n_iter_
     return W
