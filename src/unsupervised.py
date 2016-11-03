@@ -15,6 +15,13 @@ def get_matrix_factorization(data):
     print "Number of iterations:", model.n_iter_
     return W
 
+def get_top_words(model, feature_names, num_words=5):
+    topics = []
+    for topic in model.components_:
+        topic_words = [feature_names[i] for i in topic.argsort()[:-num_words - 1:-1]]
+        topics.append(topic_words)
+    return topics
+
 if __name__ == "__main__":
     data = dataload.get_tfidf()
     print get_matrix_factorization(data)
