@@ -1,3 +1,5 @@
+import collections
+
 import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
@@ -22,6 +24,18 @@ def get_top_words(model, feature_names, num_words=5):
         topic_words = [feature_names[i] for i in topic.argsort()[:-num_words - 1:-1]]
         topics.append(topic_words)
     return topics
+
+def get_categorized_rifs(W, data):
+    # For each sample in W, get the component it's most strongly associated with
+    # and add it to a dictionary that maps components to lists of samples.
+    component_datapoints = collections.defaultdict(list)
+    for i, sample in enumerate(W):
+        best_category_idx = sample.argmax()
+        datarow = data.iloc[i]
+        component_datapoints[best_category_idx].append(datarow)
+    return component_datapoints
+
+
 
 if __name__ == "__main__":
     vectorizer, vectors = dataload.get_tfidf()
