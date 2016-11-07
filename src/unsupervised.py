@@ -16,6 +16,8 @@ def get_matrix_factorization(data):
     model = NMF(n_components = 20)
     W = model.fit_transform(data)
     print "Number of iterations:", model.n_iter_
+    #W: Matrix of samples to components
+    #components_: Matrix of components to features, AKA H
     return model, W
 
 def get_top_words(model, feature_names, num_words=5):
