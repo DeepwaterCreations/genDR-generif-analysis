@@ -15,4 +15,4 @@ def get_tfidf(corpus=None):
         corpus = data['GeneRIF text']
     vectorizer = TfidfVectorizer(stop_words='english')
     vectorizer.fit(corpus)
-    return vectorizer, vectorizer.transform(corpus).todense()
+    return vectorizer, vectorizer.transform(corpus)

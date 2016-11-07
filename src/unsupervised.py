@@ -39,6 +39,7 @@ def get_categorized_rifs(W, data):
 
 if __name__ == "__main__":
     vectorizer, vectors = dataload.get_tfidf()
+    vectors = vectors.todense()
     model, W = get_matrix_factorization(vectors)
     print W.shape
     feature_names = np.array(vectorizer.get_feature_names())
