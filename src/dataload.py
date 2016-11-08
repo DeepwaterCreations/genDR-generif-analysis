@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import sklearn.model_selection
 from sklearn.feature_extraction.text import TfidfVectorizer
+import sklearn.pipeline
 
 def get_gendr_rifs_df():
     df = get_labeled_df()
@@ -32,3 +33,9 @@ def get_subset_data():
 
     return corpus, y
 
+def get_pipeline(model):
+    pipeline = sklearn.pipeline.make_pipeline(
+                TfidfVectorizer(stop_words='english'),
+                model
+            )
+    return pipeline
