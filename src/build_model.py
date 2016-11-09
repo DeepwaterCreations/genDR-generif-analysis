@@ -7,6 +7,8 @@ from sklearn.model_selection import GridSearchCV
 
 import dataload
 
+GRIDSEARCH_FILEPATH = "data/gridsearch.pckl"
+
 def do_gridsearch(X_train, y_train):
     pipeline = dataload.get_pipeline(MultinomialNB())
     gridsearch = GridSearchCV(pipeline, {
@@ -30,5 +32,5 @@ if __name__ == "__main__":
     print "Best Estimator:{0}".format(gridsearch.best_estimator_)
     print "Best Params:{0}".format(gridsearch.best_params_)
 
-    with open("data/gridsearch.pckl", 'w') as p_file:
-        cPickle.dump(gridsearch, p_file)
+    with open(GRIDSEARCH_FILEPATH, 'w') as gridsearch_file:
+        cPickle.dump(gridsearch, gridsearch_file)
