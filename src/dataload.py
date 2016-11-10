@@ -3,6 +3,7 @@ import numpy as np
 import sklearn.model_selection
 from sklearn.feature_extraction.text import TfidfVectorizer
 import sklearn.pipeline
+import sklearn.utils
 
 def get_gendr_rifs_df():
     df = get_labeled_df()
@@ -27,6 +28,7 @@ def get_subset_data():
     subset_rows = np.random.choice(df[df['in_genDR'] == 0].index.values, df.shape[0]/100)
     subset_rows = np.concatenate((df[df['in_genDR'] == 1].index.values, subset_rows))
     df = df.iloc[subset_rows]
+    sklearn.utils.shuffle(df)
 
     y = df['in_genDR']
     corpus = df['GeneRIF text']
