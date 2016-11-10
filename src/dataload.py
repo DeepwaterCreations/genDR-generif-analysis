@@ -13,6 +13,10 @@ def get_labeled_df():
     df = pd.read_csv('data/gendr_rifs.csv')
     return df
 
+def get_aws_df():
+    df = pd.read_csv("https://s3-us-west-2.amazonaws.com/dc.galvanize.capstone.generifdata/gendr_rifs.csv")
+    return df
+
 def get_tfidf(corpus=None):
     if corpus is None:
         data = get_gendr_rifs_df()
