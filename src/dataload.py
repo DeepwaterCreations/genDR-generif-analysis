@@ -25,7 +25,7 @@ def get_subset_data():
     df = get_labeled_df()
     #I have orders of magnitude more geneRIFs that aren't for genDR genes than ones that are,
     #so I want to take a subset of the 'false' values and only train/test on those.
-    subset_rows = np.random.choice(df[df['in_genDR'] == 0].index.values, df.shape[0]/100)
+    subset_rows = np.random.choice(df[df['in_genDR'] == 0].index.values, df.shape[0]/500)
     subset_rows = np.concatenate((df[df['in_genDR'] == 1].index.values, subset_rows))
     df = df.iloc[subset_rows]
     sklearn.utils.shuffle(df)
