@@ -13,11 +13,13 @@ def do_gridsearch(X_train, y_train):
     pipeline = dataload.get_pipeline(MultinomialNB())
     gridsearch = GridSearchCV(pipeline, {
         'tfidfvectorizer__max_df':(0.01, 0.1, 0.2, 0.5, 0.8, 1.0),
-        # 'tfidfvectorizer__min_df':(0.0, 0.05, 0.1),
-        'tfidfvectorizer__ngram_range':((1,1), (1,2)),
+        'tfidfvectorizer__min_df':(0.0, 0.001),
+        'tfidfvectorizer__max_features':(None, 20, 50, 100, 500, 1000),
+        'tfidfvectorizer__ngram_range':((1,1), (1,2), (2,2)),
         'tfidfvectorizer__lowercase':(False, True),
         'tfidfvectorizer__norm':('l1', 'l2'),
-        'multinomialnb__alpha':(0.0, 0.001, 0.01, 0.25, 0.5, 0.75, 1.0)
+        'tfidfvectorizer__sublinear_tf':(False, True),
+        'multinomialnb__alpha':(0.0, 0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 1.0)
         }, n_jobs=7, verbose=1)
     gridsearch.fit(X_train, y_train)
     return gridsearch
