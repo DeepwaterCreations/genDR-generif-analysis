@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.decomposition import NMF
+from wordcloud import WordCloud
 
 import dataload
 
@@ -37,6 +38,15 @@ def get_categorized_rifs(W, data):
         component_datapoints[best_category_idx].append(datarow)
     return component_datapoints
 
+
+def build_wordcloud_files(vectorizer, model):
+    wc = WordCloud()
+    featurenames = vectorizer.get_feature_names()
+    for i, component in enumerate(model.components_):
+        weights = zip(featurenames, component)
+        weights.sort(key=lambda x:x[1])
+        wc.fit_words(weights[:-201:-1])
+        wc.to_file('wordcloud{0}.png'.format(i))
 
 
 if __name__ == "__main__":
