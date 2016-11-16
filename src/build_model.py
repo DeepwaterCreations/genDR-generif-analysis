@@ -1,7 +1,10 @@
 import cPickle
 import os.path
 
+import matplotlib.pyplot as plt
+import seaborn as sns
 import sklearn.model_selection
+import sklearn.metrics
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import GridSearchCV
 
@@ -43,6 +46,22 @@ def save_model(gridsearch, score):
                                                 score,
                                                 gridsearch.best_params_))
         
+def gen_roc(y_test, model):
+    """Generates a ROC graph for the given model and data labels"""
+    fpr, tpr, _ = sklearn.metrics.roc_curve(y_test, model.predict_proba(X_test)[:,1], pos_label=1)
+    auc = sklearn.metrics.auc(fpr, tpr)
+        
+    sns.set_style("dark")
+    sns.set_context("talk")
+    plt.figure()
+    plt.plot(fpr, tpr)
+    plt.plot([0,1], [0,1], color="black", linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.0])
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title("Receiver Operating Characteristic (Area under curve: %0.2f)" % auc)
+
 
 if __name__ == "__main__":
     X, y = dataload.get_subset_data()
