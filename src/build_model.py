@@ -1,4 +1,5 @@
 import cPickle
+import os.path
 
 import pandas as pd
 import sklearn.model_selection
@@ -7,7 +8,8 @@ from sklearn.model_selection import GridSearchCV
 
 import dataload
 
-MODEL_FILEPATH = "data/predictive_model.pckl"
+MODEL_FILEPATH = "data/predictive_model{0}.pckl"
+SCORES_FILEPATH = "data/model_score_list.txt"
 
 def do_gridsearch(X_train, y_train):
     """Runs a gridsearch over a pipeline containing a TfIdfVectorizer
@@ -27,6 +29,21 @@ def do_gridsearch(X_train, y_train):
     gridsearch.fit(X_train, y_train)
     return gridsearch
 
+def save_model(gridsearch, score):
+    """Save the generated model to a new file, incrementing the filename
+    suffix if necessary, and write the accuracy score and parameters to a text file.
+    """
+    ver_num = 0
+    while os.path.isfile(MODEL_FILEPATH.format(ver_num)):
+        ver_num += 1
+    filename = MODEL_FILEPATH.format(ver_num)
+    with open(filename, 'w') as model_file:
+        cPickle.dump(gridsearch.best_estimator_, model_file)
+    with open(SCORES_FILEPATH, 'a') as scores_file:
+        scores_file.write("\n{0} | {1} | {2}".format(filename,
+                                                score,
+                                                gridsearch.best_params_))
+        
 
 if __name__ == "__main__":
     X, y = dataload.get_subset_data()
