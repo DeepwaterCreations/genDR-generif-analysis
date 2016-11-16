@@ -9,11 +9,17 @@ from wordcloud import WordCloud
 import dataload
 
 def get_kmeans_clusters(data):
+    """ Fits a KMeans model to the data
+    and returns the fitted model
+    """
     model = KMeans()
     clusters = model.fit_predict(data)
     return clusters
 
 def get_matrix_factorization(data):
+    """Fits a non-negative matrix factorization to the data
+        Returns the model and the output matrix
+        """
     model = NMF(n_components = 20)
     W = model.fit_transform(data)
     print "Number of iterations:", model.n_iter_
@@ -22,6 +28,9 @@ def get_matrix_factorization(data):
     return model, W
 
 def get_top_words(model, feature_names, num_words=5):
+    """Returns a list of lists, where each sublist is the top num_words most
+    important feature words for that component.
+    """
     topics = []
     for topic in model.components_:
         topic_words = [feature_names[i] for i in topic.argsort()[:-num_words - 1:-1]]
@@ -29,8 +38,9 @@ def get_top_words(model, feature_names, num_words=5):
     return topics
 
 def get_categorized_rifs(W, data):
-    # For each sample in W, get the component it's most strongly associated with
-    # and add it to a dictionary that maps components to lists of samples.
+    """Calculates, for each data row, which component in W it's most strongly associated with,
+    and returns a dictionary mapping components to lists of assocated data rows.
+    """
     component_datapoints = collections.defaultdict(list)
     for i, sample in enumerate(W):
         best_category_idx = sample.argmax()
@@ -40,6 +50,10 @@ def get_categorized_rifs(W, data):
 
 
 def build_wordcloud_files(vectorizer, model):
+    """Generates a word cloud image for each component
+    displaying the most important word-features in that component, and saves
+    them to separate files.
+    """
     wc = WordCloud()
     featurenames = vectorizer.get_feature_names()
     for i, component in enumerate(model.components_):

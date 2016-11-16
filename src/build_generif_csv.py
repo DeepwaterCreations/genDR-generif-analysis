@@ -4,12 +4,16 @@ import pandas as pd
 import numpy as np
 
 def load_gendr():
-    #Load the GenDR data
+    """Load the GenDR data
+        Returns a pandas data frame 
+    """
     gendr = pd.read_csv('data/gendr_manipulations.csv')
     return gendr
 
 def load_generifs():
-    #Load the significantly less nicely-formatted geneRIF data
+    """Load the significantly less nicely-formatted geneRIF data
+        Returns a pandas data frame
+    """
     reg = re.compile(r"[\d:,-]+(?![^\t]+$)|[^\t]+$")
     datalist = []
     with open('data/generifs_basic') as datafile:
@@ -28,7 +32,9 @@ def load_generifs():
     return generifs
 
 def match_gendr_to_rifs(gendr, generifs):
-    #Combine the datasets
+    """Combines the GenDR and GeneRIF datasets, merging on entrez id
+        Returns a pandas data frame
+    """
     gendr_rifs = pd.merge(gendr, generifs,
                         how="right",
                         left_on="entrez_id",

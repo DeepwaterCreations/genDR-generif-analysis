@@ -10,6 +10,9 @@ import dataload
 MODEL_FILEPATH = "data/predictive_model.pckl"
 
 def do_gridsearch(X_train, y_train):
+    """Runs a gridsearch over a pipeline containing a TfIdfVectorizer
+    and a Multinomial Naive Bayes model
+    """
     pipeline = dataload.get_pipeline(MultinomialNB())
     gridsearch = GridSearchCV(pipeline, {
         'tfidfvectorizer__max_df':(0.01, 0.1, 0.2, 0.5, 0.8, 1.0),
