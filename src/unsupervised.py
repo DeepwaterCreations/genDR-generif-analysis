@@ -54,7 +54,7 @@ def build_wordcloud_files(vectorizer, model):
     displaying the most important word-features in that component, and saves
     them to separate files.
     """
-    wc = WordCloud()
+    wc = WordCloud(background_color="white", ranks_only=True)
     featurenames = vectorizer.get_feature_names()
     for i, component in enumerate(model.components_):
         weights = zip(featurenames, component)
