@@ -12,6 +12,7 @@ import dataload
 
 MODEL_FILEPATH = "data/predictive_model{0}.pckl"
 SCORES_FILEPATH = "data/model_score_list.txt"
+ROC_FILEPATH = "data/roc_curve{0}.svg"
 
 def do_gridsearch(X_train, y_train):
     """Runs a gridsearch over a pipeline containing a TfIdfVectorizer
@@ -34,6 +35,7 @@ def do_gridsearch(X_train, y_train):
 def save_model(gridsearch, score):
     """Save the generated model to a new file, incrementing the filename
     suffix if necessary, and write the accuracy score and parameters to a text file.
+    Returns the filename suffix.
     """
     ver_num = 0
     while os.path.isfile(MODEL_FILEPATH.format(ver_num)):
@@ -45,6 +47,7 @@ def save_model(gridsearch, score):
         scores_file.write("\n{0} | {1} | {2}".format(filename,
                                                 score,
                                                 gridsearch.best_params_))
+    return ver_num
         
 def gen_roc(y_test, model):
     """Generates a ROC graph for the given model and data labels"""
@@ -68,9 +71,21 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, 
                                                                             stratify = y)
     gridsearch = do_gridsearch(X_train, y_train)
-    print "SCORE:{0}".format(gridsearch.best_estimator_.score(X_test, y_test))
-    print "Best Estimator:{0}".format(gridsearch.best_estimator_)
+    score = gridsearch.best_estimator_.score(X_test, y_test)
+    print "SCORE:{0}".format(score)
     print "Best Params:{0}".format(gridsearch.best_params_)
+    print "Stopwords:"
+    print gridsearch.best_estimator_.named_steps['tfidfvectorizer'].stop_words_
+    gen_roc(y_test, gridsearch.best_estimator_)
+    print "Displaying ROC graph (close to continue)"
+    plt.show()
 
-    with open(MODEL_FILEPATH, 'w') as model_file:
-        cPickle.dump(gridsearch.best_estimator_, model_file)
+    save = raw_input("Save this model? (Y/n)").lower()
+    if save != 'n':
+        suffix = save_model(gridsearch, score)
+        roc_filepath = ROC_FILEPATH.format(suffix)
+        plt.savefig(roc_filepath, bbox_inches="tight")
+        savepath = MODEL_FILEPATH.format(suffix)
+        print "Saved to {0}".format(savepath)
+    else:
+        print "Model not saved"
