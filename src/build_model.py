@@ -1,7 +1,6 @@
 import cPickle
 import os.path
 
-import pandas as pd
 import sklearn.model_selection
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import GridSearchCV
