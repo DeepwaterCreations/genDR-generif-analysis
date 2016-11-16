@@ -2,3 +2,5 @@ data/**
 !data/data_sources.txt
 
 *.pyc
+*.png
+*.svg
