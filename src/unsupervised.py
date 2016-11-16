@@ -64,9 +64,11 @@ def build_wordcloud_files(vectorizer, model):
 
 
 if __name__ == "__main__":
-    vectorizer, vectors = dataload.get_tfidf()
+    data = dataload.get_gendr_rifs_df()
+    corpus = data['GeneRIF text']
+    vectorizer, vectors = dataload.get_tfidf(corpus)
     vectors = vectors.todense()
     model, W = get_matrix_factorization(vectors)
-    print W.shape
-    feature_names = np.array(vectorizer.get_feature_names())
-    print get_top_words(model, feature_names)
+    # component_datapoints = get_categorized_rifs(W, data)
+
+    build_wordcloud_files(vectorizer, model)
