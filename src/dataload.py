@@ -19,11 +19,6 @@ def get_labeled_df():
     df = pd.read_csv('data/gendr_rifs.csv')
     return df
 
-def get_aws_df():
-    """Loads a labeled data frame from an AWS S3 bucket."""
-    df = pd.read_csv("https://s3-us-west-2.amazonaws.com/dc.galvanize.capstone.generifdata/gendr_rifs.csv")
-    return df
-
 def get_tfidf(corpus=None):
     """Returns a TfIdf vectorization of the provided corpus and the model used to generate it.
     If no corpus is provided, uses the GeneRIF data from GenDR genes.
