@@ -18,6 +18,7 @@ This project uses the following libraries:
  - Matplotlib
  - Seaborn
  - Wordcloud
+
 All of these should be available via `pip install`
 
 ###Prepare data files
